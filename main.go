@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/sivayogasubramanian/ocv/config"
 	"github.com/sivayogasubramanian/ocv/models"
-	"github.com/sivayogasubramanian/ocv/routes.go"
+	"github.com/sivayogasubramanian/ocv/routes"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
