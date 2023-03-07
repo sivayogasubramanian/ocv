@@ -18,7 +18,8 @@ func GetCommonStudents(ctx *gin.Context) {
 	resp, err := handlers.GetCommonStudents(teachers)
 	if err != nil {
 		ctx.JSON(err.StatusCode(), NewErrorResponse(err.Message()))
-	} else {
-		ctx.JSON(http.StatusOK, resp)
+		return
 	}
+	
+	ctx.JSON(http.StatusOK, resp)
 }

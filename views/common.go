@@ -15,7 +15,8 @@ func NewErrorResponse(message string) *Error {
 
 func bindJson(ctx *gin.Context, req interface{}) {
 	err := ctx.BindJSON(&req)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
+	if err == nil {
+		return
 	}
+	ctx.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
 }

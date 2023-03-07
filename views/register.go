@@ -15,7 +15,8 @@ func Register(ctx *gin.Context) {
 
 	if err != nil {
 		ctx.JSON(err.StatusCode(), NewErrorResponse(err.Message()))
-	} else {
-		ctx.Status(http.StatusNoContent)
+		return
 	}
+
+	ctx.Status(http.StatusNoContent)
 }
