@@ -2,7 +2,11 @@ package config
 
 import (
 	"fmt"
+	"github.com/sivayogasubramanian/ocv/models"
+	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"log"
 )
 
 var DB *gorm.DB
@@ -35,4 +39,32 @@ func GetDatabaseUrl(dbConfig *DBConfig) string {
 		dbConfig.Port,
 		dbConfig.DBName,
 	)
+}
+
+func InitDB() {
+	var err error
+
+	DB, err = gorm.Open(mysql.Open(GetDatabaseUrl(BuildDBConfig())))
+	if err != nil {
+		log.Fatal("failed to connect database")
+	}
+
+	err = DB.AutoMigrate(&models.Student{}, &models.Teacher{})
+	if err != nil {
+		log.Fatal("failed to migrate database")
+	}
+}
+
+func InitMemoryDB() {
+	var err error
+
+	DB, err = gorm.Open(sqlite.Open(":memory:"))
+	if err != nil {
+		log.Fatal("failed to connect database")
+	}
+
+	err = DB.AutoMigrate(&models.Student{}, &models.Teacher{})
+	if err != nil {
+		log.Fatal("failed to migrate database")
+	}
 }

@@ -1,34 +1,40 @@
 package handlers
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
+	"github.com/sivayogasubramanian/ocv/dataaccess"
+	ocverrs "github.com/sivayogasubramanian/ocv/errors"
 	"github.com/sivayogasubramanian/ocv/models"
+	"github.com/sivayogasubramanian/ocv/viewmodels"
 	"net/http"
 )
 
-type RegisterRequest struct {
-	Teacher  string   `json:"teacher"`
-	Students []string `json:"students"`
-}
-
-func Register(ctx *gin.Context) {
-	req := RegisterRequest{}
-	err := ctx.BindJSON(&req)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+func Register(req *viewmodels.RegisterRequest) ocverrs.Error {
+	newTeacher := models.Teacher{Email: req.Teacher}
+	if err := newTeacher.Validate(); err != nil {
+		return ocverrs.New(http.StatusBadRequest, err.Error())
 	}
 
-	teacher := models.Teacher{Email: req.Teacher}
 	for _, studentEmail := range req.Students {
-		student := models.Student{Email: studentEmail}
-		teacher.Students = append(teacher.Students, &student)
+		newStudent := models.Student{Email: studentEmail}
+		if err := newStudent.Validate(); err != nil {
+			return ocverrs.New(http.StatusBadRequest, err.Error())
+		}
+		newTeacher.Students = append(newTeacher.Students, &newStudent)
 	}
 
-	err = models.CreateTeacher(&teacher)
-
+	taken, err := dataaccess.CheckIfTeacherEmailTaken(req.Teacher)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-	} else {
-		ctx.Status(http.StatusNoContent)
+		return ocverrs.New(http.StatusInternalServerError, fmt.Sprintf("An error occurred while registering the teacher with email: %s.", req.Teacher))
 	}
+	if taken {
+		return ocverrs.New(http.StatusConflict, fmt.Sprintf("Teacher with email: %s already exists.", req.Teacher))
+	}
+
+	err = dataaccess.CreateTeacher(&newTeacher)
+	if err != nil {
+		return ocverrs.New(http.StatusInternalServerError, fmt.Sprintf("An error occurred while registering the teacher with email: %s.", req.Teacher))
+	}
+
+	return nil
 }

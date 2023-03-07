@@ -2,14 +2,14 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/sivayogasubramanian/ocv/handlers"
+	"github.com/sivayogasubramanian/ocv/views"
 )
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
 	api := r.Group("/api")
-	api.POST("/register", handlers.Register)
+	api.POST("/register", views.Register)
 
 	return r
 }
