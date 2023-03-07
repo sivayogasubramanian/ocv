@@ -1,7 +1,6 @@
 package models
 
 import (
-	"errors"
 	"fmt"
 	ocvutils "github.com/sivayogasubramanian/ocv/utils"
 )
@@ -13,7 +12,7 @@ type Student struct {
 
 func (s *Student) Validate() error {
 	if !ocvutils.IsValidEmail(s.Email) {
-		return errors.New(fmt.Sprintf("Invalid email: %s", s.Email))
+		return fmt.Errorf("invalid email: %s", s.Email)
 	}
 	return nil
 }

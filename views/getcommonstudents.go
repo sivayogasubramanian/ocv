@@ -13,9 +13,7 @@ func GetCommonStudents(ctx *gin.Context) {
 	}
 
 	var teachers []string
-	for _, teacher := range ctx.Request.Form["teacher"] {
-		teachers = append(teachers, teacher)
-	}
+	teachers = append(teachers, ctx.Request.Form["teacher"]...)
 
 	resp, err := handlers.GetCommonStudents(teachers)
 	if err != nil {
