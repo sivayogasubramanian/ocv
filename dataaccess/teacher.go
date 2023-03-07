@@ -26,3 +26,14 @@ func CheckIfTeacherEmailTaken(email string) (bool, error) {
 
 	return exists, nil
 }
+
+func FindAllTeachers(emails []string) ([]models.Teacher, error) {
+	var teachers []models.Teacher
+
+	err := config.DB.Where("email IN (?)", emails).Preload("Students").Find(&teachers).Error
+	if err != nil {
+		return teachers, err
+	}
+
+	return teachers, nil
+}
