@@ -12,7 +12,7 @@ func CreateTeacher(teacher *models.Teacher) error {
 	return nil
 }
 
-func CheckIfTeacherEmailTaken(email string) (bool, error) {
+func CheckIfTeacherExists(email string) (bool, error) {
 	exists := false
 
 	err := config.DB.Model(&models.Teacher{}).

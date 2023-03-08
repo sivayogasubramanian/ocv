@@ -23,11 +23,11 @@ func Register(req *viewmodels.RegisterRequest) ocverrs.Error {
 		newTeacher.Students = append(newTeacher.Students, &newStudent)
 	}
 
-	taken, err := dataaccess.CheckIfTeacherEmailTaken(req.Teacher)
+	teacherExists, err := dataaccess.CheckIfTeacherExists(req.Teacher)
 	if err != nil {
 		return ocverrs.New(http.StatusInternalServerError, fmt.Sprintf("An error occurred while registering the teacher with email: %s.", req.Teacher))
 	}
-	if taken {
+	if teacherExists {
 		return ocverrs.New(http.StatusConflict, fmt.Sprintf("Teacher with email: %s already exists.", req.Teacher))
 	}
 

@@ -5,6 +5,7 @@ import (
 	ocverrs "github.com/sivayogasubramanian/ocv/errors"
 	"github.com/sivayogasubramanian/ocv/models"
 	"github.com/sivayogasubramanian/ocv/viewmodels"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"reflect"
 	"testing"
@@ -98,9 +99,13 @@ func TestGetCommonStudents(t *testing.T) {
 		},
 	}
 
-	config.DB.Create(&t1)
-	config.DB.Create(&t2)
-	config.DB.Create(&t3)
+	var err error
+	err = config.DB.Create(&t1).Error
+	assert.Nil(t, err)
+	err = config.DB.Create(&t2).Error
+	assert.Nil(t, err)
+	err = config.DB.Create(&t3).Error
+	assert.Nil(t, err)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -6,8 +6,9 @@ import (
 )
 
 type Student struct {
-	Email    string     `json:"email" gorm:"primary_key"`
-	Teachers []*Teacher `json:"teachers" gorm:"many2many:teacher_student;"`
+	Email       string     `json:"email" gorm:"primary_key"`
+	IsSuspended bool       `json:"isSuspended" gorm:"default:false"`
+	Teachers    []*Teacher `json:"teachers" gorm:"many2many:teacher_student;"`
 }
 
 func (s *Student) Validate() error {
