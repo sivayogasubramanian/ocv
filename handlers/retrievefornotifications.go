@@ -50,7 +50,7 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 
 	var recipients []string
 
-	for studentEmail, _ := range studentRecipients {
+	for studentEmail := range studentRecipients {
 		student := models.Student{Email: studentEmail}
 
 		isSuspended, err := dataaccess.IsStudentSuspended(&student)

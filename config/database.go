@@ -7,6 +7,8 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"log"
+	"os"
+	"strconv"
 )
 
 var DB *gorm.DB
@@ -20,12 +22,14 @@ type DBConfig struct {
 }
 
 func BuildDBConfig() *DBConfig {
+	port, _ := strconv.Atoi(os.Getenv("MYSQL_PORT"))
+
 	dbConfig := DBConfig{
-		Host:     "localhost",
-		Port:     3306,
-		User:     "root",
-		Password: "password",
-		DBName:   "ocv",
+		Host:     os.Getenv("MYSQL_HOST"),
+		Port:     port,
+		User:     os.Getenv("MYSQL_USER"),
+		Password: os.Getenv("MYSQL_PASSWORD"),
+		DBName:   os.Getenv("MYSQL_DATABASE"),
 	}
 	return &dbConfig
 }
