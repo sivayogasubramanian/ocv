@@ -12,6 +12,7 @@ func SetupRouter() *gin.Engine {
 	api.POST("/register", views.Register)
 	api.GET("/commonstudents", views.GetCommonStudents)
 	api.POST("/suspend", views.Suspend)
+	api.POST("/retrievefornotifications", views.RetrieveNotifications)
 
 	return r
 }

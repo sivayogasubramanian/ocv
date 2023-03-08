@@ -5,7 +5,7 @@ import (
 	"github.com/sivayogasubramanian/ocv/models"
 )
 
-func CheckIfStudentExists(email string) (bool, error) {
+func DoesStudentExists(email string) (bool, error) {
 	exists := false
 
 	err := config.DB.Model(&models.Student{}).
@@ -27,4 +27,13 @@ func SuspendStudent(student *models.Student) error {
 		return err
 	}
 	return nil
+}
+
+func IsStudentSuspended(student *models.Student) (bool, error) {
+	err := config.DB.First(&student).Error
+	if err != nil {
+		return false, err
+	}
+
+	return student.IsSuspended, nil
 }

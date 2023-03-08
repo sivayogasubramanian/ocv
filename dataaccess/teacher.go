@@ -12,7 +12,7 @@ func CreateTeacher(teacher *models.Teacher) error {
 	return nil
 }
 
-func CheckIfTeacherExists(email string) (bool, error) {
+func DoesTeacherExists(email string) (bool, error) {
 	exists := false
 
 	err := config.DB.Model(&models.Teacher{}).
@@ -36,4 +36,15 @@ func FindAllTeachers(emails []string) ([]models.Teacher, error) {
 	}
 
 	return teachers, nil
+}
+
+func FindTeacher(email string) (models.Teacher, error) {
+	var teacher models.Teacher
+
+	err := config.DB.Where("email = ?", email).Preload("Students").Find(&teacher).Error
+	if err != nil {
+		return teacher, err
+	}
+
+	return teacher, nil
 }

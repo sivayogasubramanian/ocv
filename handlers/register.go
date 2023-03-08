@@ -23,7 +23,7 @@ func Register(req *viewmodels.RegisterRequest) ocverrs.Error {
 		newTeacher.Students = append(newTeacher.Students, &newStudent)
 	}
 
-	teacherExists, err := dataaccess.CheckIfTeacherExists(req.Teacher)
+	teacherExists, err := dataaccess.DoesTeacherExists(req.Teacher)
 	if err != nil {
 		return ocverrs.New(http.StatusInternalServerError, fmt.Sprintf("An error occurred while registering the teacher with email: %s.", req.Teacher))
 	}

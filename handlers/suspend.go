@@ -15,7 +15,7 @@ func Suspend(req *viewmodels.SuspendRequest) ocverrs.Error {
 		return ocverrs.New(http.StatusBadRequest, err.Error())
 	}
 
-	studentExists, err := dataaccess.CheckIfStudentExists(req.Student)
+	studentExists, err := dataaccess.DoesStudentExists(req.Student)
 	if err != nil {
 		return ocverrs.New(http.StatusInternalServerError, "An error occurred while suspending the student.")
 	}
