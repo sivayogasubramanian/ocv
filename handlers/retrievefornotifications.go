@@ -7,6 +7,7 @@ import (
 	"github.com/sivayogasubramanian/ocv/models"
 	"github.com/sivayogasubramanian/ocv/viewmodels"
 	"net/http"
+	"sort"
 	"strings"
 )
 
@@ -67,6 +68,8 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 	if len(recipients) == 0 {
 		recipients = []string{}
 	}
+
+	sort.Strings(recipients)
 
 	return &viewmodels.RetrieveNotificationsResponse{
 		Recipients: recipients,
