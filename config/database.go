@@ -29,8 +29,9 @@ func BuildDBConfig() *DBConfig {
 		Port:     port,
 		User:     os.Getenv("MYSQL_USER"),
 		Password: os.Getenv("MYSQL_PASSWORD"),
-		DBName:   os.Getenv("MYSQL_DATABASE"),
+		DBName:   os.Getenv("MYSQL_DATABASE_NAME"),
 	}
+
 	return &dbConfig
 }
 
