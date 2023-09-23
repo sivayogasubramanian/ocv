@@ -12,10 +12,12 @@ Name: Ruppa Nagarajan Sivayoga Subramanian
 
 The server will be running on `localhost:8080`.
 
-### Production 
+### Production
 
 The application is deployed on a digital ocean droplet. NGINX API gateway is used to manage the docker deployment setup.
 
 Please make requests to "https://ocv.sivarn.com"
 
 Example: "https://ocv.sivarn.com/api/register"
+
+Note: HTTPS is strictly enforced. Please make sure to use https in the request.
