@@ -1,123 +1,254 @@
 {
 	"info": {
-		"_postman_id": "2e140e7f-9a86-44d0-a7bd-aa546c0ccb19",
-		"name": "OCV",
+		"_postman_id": "0eeb2ea0-7f1c-4297-8701-181104348282",
+		"name": "OCV Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15889160"
 	},
 	"item": [
 		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"teacher\": \"t3@gmail.com\",\n    \"students\": [\n        \"s1@gmail.com\",\n        \"s2@gmail.com\",\n        \"s3@gmail.com\"\n    ]\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/register",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Common Students",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/commonstudents?teacher=t3@gmail.com&teacher=t1@gmail.com",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"commonstudents"
-					],
-					"query": [
-						{
-							"key": "teacher",
-							"value": "t3@gmail.com"
+			"name": "Local",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"teacher\": \"t3@gmail.com\",\n    \"students\": [\n        \"s1@gmail.com\",\n        \"s2@gmail.com\",\n        \"s3@gmail.com\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
-						{
-							"key": "teacher",
-							"value": "t1@gmail.com"
+						"url": {
+							"raw": "localhost:8080/api/register",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"register"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Suspend Student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"student\": \"s1@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/suspend",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"suspend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Notifications",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"teacher\": \"ken@gmail.com\",\n    \"notification\": \"@s2@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/retrievefornotifications",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"retrievefornotifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Common Students",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/commonstudents?teacher=t3@gmail.com&teacher=t1@gmail.com",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"commonstudents"
+							],
+							"query": [
+								{
+									"key": "teacher",
+									"value": "t3@gmail.com"
+								},
+								{
+									"key": "teacher",
+									"value": "t1@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Suspend Student",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"student\": \"s1@gmail.com\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Production",
+			"item": [
+				{
+					"name": "Register Prod",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"teacher\": \"t3@gmail.com\",\n    \"students\": [\n        \"s1@gmail.com\",\n        \"s2@gmail.com\",\n        \"s3@gmail.com\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ocv.sivarn.com/api/register",
+							"protocol": "https",
+							"host": [
+								"ocv",
+								"sivarn",
+								"com"
+							],
+							"path": [
+								"api",
+								"register"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/suspend",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"suspend"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Retrieve Notifications",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"teacher\": \"ken@gmail.com\",\n    \"notification\": \"@s2@gmail.com\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Suspend Student Prod",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"student\": \"s1@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ocv.sivarn.com/api/suspend",
+							"protocol": "https",
+							"host": [
+								"ocv",
+								"sivarn",
+								"com"
+							],
+							"path": [
+								"api",
+								"suspend"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/retrievefornotifications",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"retrievefornotifications"
-					]
+				{
+					"name": "Retrieve Notifications Prod",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"teacher\": \"ken@gmail.com\",\n    \"notification\": \"@s2@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ocv.sivarn.com/api/retrievefornotifications",
+							"protocol": "https",
+							"host": [
+								"ocv",
+								"sivarn",
+								"com"
+							],
+							"path": [
+								"api",
+								"retrievefornotifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Common Students Prod",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ocv.sivarn.com/api/commonstudents?teacher=t3@gmail.com&teacher=t1@gmail.com",
+							"protocol": "https",
+							"host": [
+								"ocv",
+								"sivarn",
+								"com"
+							],
+							"path": [
+								"api",
+								"commonstudents"
+							],
+							"query": [
+								{
+									"key": "teacher",
+									"value": "t3@gmail.com"
+								},
+								{
+									"key": "teacher",
+									"value": "t1@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [
