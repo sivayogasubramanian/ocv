@@ -1,14 +1,13 @@
 package handlers
 
 import (
+	"github.com/sivayogasubramanian/ocv/src/config"
+	models2 "github.com/sivayogasubramanian/ocv/src/models"
+	"github.com/sivayogasubramanian/ocv/src/viewmodels"
 	"net/http"
 	"reflect"
 	"testing"
 
-	"github.com/sivayogasubramanian/ocv/config"
-	ocverrs "github.com/sivayogasubramanian/ocv/errors"
-	"github.com/sivayogasubramanian/ocv/models"
-	"github.com/sivayogasubramanian/ocv/viewmodels"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -64,9 +63,9 @@ func TestGetCommonStudents(t *testing.T) {
 
 	config.InitMemoryDB()
 
-	t1 := models.Teacher{
+	t1 := models2.Teacher{
 		Email: "t1@gmail.com",
-		Students: []*models.Student{
+		Students: []*models2.Student{
 			{
 				Email: "s1@gmail.com",
 			},
@@ -79,9 +78,9 @@ func TestGetCommonStudents(t *testing.T) {
 		},
 	}
 
-	t2 := models.Teacher{
+	t2 := models2.Teacher{
 		Email: "t2@gmail.com",
-		Students: []*models.Student{
+		Students: []*models2.Student{
 			{
 				Email: "s1@gmail.com",
 			},
@@ -91,9 +90,9 @@ func TestGetCommonStudents(t *testing.T) {
 		},
 	}
 
-	t3 := models.Teacher{
+	t3 := models2.Teacher{
 		Email: "t3@gmail.com",
-		Students: []*models.Student{
+		Students: []*models2.Student{
 			{
 				Email: "s1@gmail.com",
 			},

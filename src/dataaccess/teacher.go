@@ -1,8 +1,8 @@
 package dataaccess
 
 import (
-	"github.com/sivayogasubramanian/ocv/config"
-	"github.com/sivayogasubramanian/ocv/models"
+	"github.com/sivayogasubramanian/ocv/src/config"
+	"github.com/sivayogasubramanian/ocv/src/models"
 )
 
 func CreateTeacher(teacher *models.Teacher) error {

@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/joho/godotenv"
-	"github.com/sivayogasubramanian/ocv/config"
-	"github.com/sivayogasubramanian/ocv/routes"
+	"github.com/sivayogasubramanian/ocv/src/config"
+	"github.com/sivayogasubramanian/ocv/src/routes"
 	"log"
 )
 

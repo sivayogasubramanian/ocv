@@ -2,10 +2,9 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/sivayogasubramanian/ocv/dataaccess"
-	ocverrs "github.com/sivayogasubramanian/ocv/errors"
-	"github.com/sivayogasubramanian/ocv/models"
-	"github.com/sivayogasubramanian/ocv/viewmodels"
+	dataaccess2 "github.com/sivayogasubramanian/ocv/src/dataaccess"
+	models2 "github.com/sivayogasubramanian/ocv/src/models"
+	"github.com/sivayogasubramanian/ocv/src/viewmodels"
 	"net/http"
 	"sort"
 	"strings"
@@ -17,7 +16,7 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 		return nil, err
 	}
 
-	teacherExists, stderr := dataaccess.DoesTeacherExists(req.Teacher)
+	teacherExists, stderr := dataaccess2.DoesTeacherExists(req.Teacher)
 	if stderr != nil {
 		return nil, ocverrs.New(http.StatusInternalServerError, "An error occurred while retrieving notification recipients.")
 	}
@@ -30,7 +29,7 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 
 	studentEmails := getEmailsFromNotificationText(req.Notification)
 	for _, studentEmail := range studentEmails {
-		studentExists, err := dataaccess.DoesStudentExists(studentEmail)
+		studentExists, err := dataaccess2.DoesStudentExists(studentEmail)
 		if err != nil {
 			return nil, ocverrs.New(http.StatusInternalServerError, "An error occurred while retrieving notification recipients.")
 		}
@@ -41,7 +40,7 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 		studentRecipients[studentEmail] = true
 	}
 
-	teacher, stderr := dataaccess.FindTeacher(req.Teacher)
+	teacher, stderr := dataaccess2.FindTeacher(req.Teacher)
 	if stderr != nil {
 		return nil, ocverrs.New(http.StatusInternalServerError, "An error occurred while retrieving notification recipients.")
 	}
@@ -52,9 +51,9 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 	var recipients []string
 
 	for studentEmail := range studentRecipients {
-		student := models.Student{Email: studentEmail}
+		student := models2.Student{Email: studentEmail}
 
-		isSuspended, err := dataaccess.IsStudentSuspended(&student)
+		isSuspended, err := dataaccess2.IsStudentSuspended(&student)
 		if err != nil {
 			return nil, ocverrs.New(http.StatusInternalServerError, "An error occurred while retrieving notification recipients.")
 		}
@@ -77,14 +76,14 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 }
 
 func verifyRequestParams(req *viewmodels.RetrieveNotificationsRequest) ocverrs.Error {
-	teacher := models.Teacher{Email: req.Teacher}
+	teacher := models2.Teacher{Email: req.Teacher}
 	if err := teacher.Validate(); err != nil {
 		return ocverrs.New(http.StatusBadRequest, err.Error())
 	}
 
 	studentEmails := getEmailsFromNotificationText(req.Notification)
 	for _, studentEmail := range studentEmails {
-		student := models.Student{Email: studentEmail}
+		student := models2.Student{Email: studentEmail}
 		if err := student.Validate(); err != nil {
 			return ocverrs.New(http.StatusBadRequest, err.Error())
 		}

@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	ocvutils "github.com/sivayogasubramanian/ocv/utils"
 )
 
 type Teacher struct {

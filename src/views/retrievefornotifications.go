@@ -2,8 +2,8 @@ package views
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/sivayogasubramanian/ocv/handlers"
-	"github.com/sivayogasubramanian/ocv/viewmodels"
+	"github.com/sivayogasubramanian/ocv/src/handlers"
+	"github.com/sivayogasubramanian/ocv/src/viewmodels"
 	"net/http"
 )
 

@@ -2,7 +2,7 @@ package views
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/sivayogasubramanian/ocv/handlers"
+	"github.com/sivayogasubramanian/ocv/src/handlers"
 	"net/http"
 )
 
@@ -20,6 +20,6 @@ func GetCommonStudents(ctx *gin.Context) {
 		ctx.JSON(err.StatusCode(), NewErrorResponse(err.Message()))
 		return
 	}
-	
+
 	ctx.JSON(http.StatusOK, resp)
 }

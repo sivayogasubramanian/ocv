@@ -2,21 +2,20 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/sivayogasubramanian/ocv/dataaccess"
-	ocverrs "github.com/sivayogasubramanian/ocv/errors"
-	"github.com/sivayogasubramanian/ocv/models"
-	"github.com/sivayogasubramanian/ocv/viewmodels"
+	"github.com/sivayogasubramanian/ocv/src/dataaccess"
+	models2 "github.com/sivayogasubramanian/ocv/src/models"
+	"github.com/sivayogasubramanian/ocv/src/viewmodels"
 	"net/http"
 )
 
 func Register(req *viewmodels.RegisterRequest) ocverrs.Error {
-	newTeacher := models.Teacher{Email: req.Teacher}
+	newTeacher := models2.Teacher{Email: req.Teacher}
 	if err := newTeacher.Validate(); err != nil {
 		return ocverrs.New(http.StatusBadRequest, err.Error())
 	}
 
 	for _, studentEmail := range req.Students {
-		newStudent := models.Student{Email: studentEmail}
+		newStudent := models2.Student{Email: studentEmail}
 		if err := newStudent.Validate(); err != nil {
 			return ocverrs.New(http.StatusBadRequest, err.Error())
 		}

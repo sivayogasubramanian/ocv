@@ -1,9 +1,8 @@
 package handlers
 
 import (
-	"github.com/sivayogasubramanian/ocv/config"
-	ocverrs "github.com/sivayogasubramanian/ocv/errors"
-	"github.com/sivayogasubramanian/ocv/viewmodels"
+	"github.com/sivayogasubramanian/ocv/src/config"
+	"github.com/sivayogasubramanian/ocv/src/viewmodels"
 	"net/http"
 	"reflect"
 	"testing"

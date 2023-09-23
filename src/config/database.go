@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"github.com/sivayogasubramanian/ocv/models"
+	models2 "github.com/sivayogasubramanian/ocv/src/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -57,7 +57,7 @@ func InitDB() {
 		log.Fatal("failed to connect database")
 	}
 
-	err = DB.AutoMigrate(&models.Student{}, &models.Teacher{})
+	err = DB.AutoMigrate(&models2.Student{}, &models2.Teacher{})
 	if err != nil {
 		log.Fatal("failed to migrate database")
 	}
@@ -71,7 +71,7 @@ func InitMemoryDB() {
 		log.Fatal("failed to connect database")
 	}
 
-	err = DB.AutoMigrate(&models.Student{}, &models.Teacher{})
+	err = DB.AutoMigrate(&models2.Student{}, &models2.Teacher{})
 	if err != nil {
 		log.Fatal("failed to migrate database")
 	}
