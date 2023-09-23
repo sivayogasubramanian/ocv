@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres
+    container_name: ocv-database
+    restart: always
+    volumes:
+      - ~/db_data:/var/lib/postgresql/data
+    networks:
+      - ocv-network
+    logging:
+      driver: journald
+    expose:
+      - '5432'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  backend:
+    image: ghcr.io/sivayogasubramanian/ocv:latest
+    container_name: ocv
+    restart: always
+    depends_on:
+      - database
+    networks:
+      - ocv-network
+    logging:
+      driver: journald
+    expose:
+      - '8080'
+    environment:
+      GIN_MODE: release
+      PORT: 8080
+      POSTGRES_HOST: ocv-database
+      POSTGRES_PORT: 5432
+      POSTGRES_DATABASE_NAME: ${POSTGRES_DATABASE_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_SSLMODE: disable
+
+  nginx:
+    image: ghcr.io/sivayogasubramanian/ocv-nginx:latest
+    container_name: ocv-nginx
+    restart: always
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+    depends_on:
+      - backend
+    networks:
+      - ocv-network
+    logging:
+      driver: journald
+    ports:
+      - '80:80'
+      - '443:443'
+
+  certbot:
+    image: certbot/certbot
+    container_name: ocv-certbot
+    restart: always
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+    depends_on:
+      - nginx
+    networks:
+      - ocv-network
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+networks:
+  ocv-network:
