@@ -4,21 +4,20 @@
 FROM goland:1.18
 
 # Environment variables
-ENV APP_ROOT /frontend
+ENV APP_ROOT /src
 
 # Copy source code into container
 RUN mkdir --parents $APP_ROOT
 WORKDIR $APP_ROOT
-COPY frontend .
+COPY src .
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN go mod download
 
 # Build app
-RUN yarn build
+RUN go build -o main .
 
 # Expose port
-EXPOSE 3000
+EXPOSE 8080
 
-# Final image for running the Next app
-CMD ["yarn", "start"]
+CMD ["./main"]
