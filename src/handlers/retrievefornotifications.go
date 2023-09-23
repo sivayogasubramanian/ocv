@@ -6,18 +6,19 @@ import (
 	ocverrs "github.com/sivayogasubramanian/ocv/src/errors"
 	"github.com/sivayogasubramanian/ocv/src/models"
 	"github.com/sivayogasubramanian/ocv/src/viewmodels"
+	"gorm.io/gorm"
 	"net/http"
 	"sort"
 	"strings"
 )
 
-func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewmodels.RetrieveNotificationsResponse, ocverrs.Error) {
+func RetrieveNotifications(db *gorm.DB, req *viewmodels.RetrieveNotificationsRequest) (*viewmodels.RetrieveNotificationsResponse, ocverrs.Error) {
 	err := verifyRequestParams(req)
 	if err != nil {
 		return nil, err
 	}
 
-	teacherExists, stderr := dataaccess.DoesTeacherExists(req.Teacher)
+	teacherExists, stderr := dataaccess.DoesTeacherExists(db, req.Teacher)
 	if stderr != nil {
 		return nil, ocverrs.New(http.StatusInternalServerError, "An error occurred while retrieving notification recipients.")
 	}
@@ -30,7 +31,7 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 
 	studentEmails := getEmailsFromNotificationText(req.Notification)
 	for _, studentEmail := range studentEmails {
-		studentExists, err := dataaccess.DoesStudentExists(studentEmail)
+		studentExists, err := dataaccess.DoesStudentExists(db, studentEmail)
 		if err != nil {
 			return nil, ocverrs.New(http.StatusInternalServerError, "An error occurred while retrieving notification recipients.")
 		}
@@ -41,7 +42,7 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 		studentRecipients[studentEmail] = true
 	}
 
-	teacher, stderr := dataaccess.FindTeacher(req.Teacher)
+	teacher, stderr := dataaccess.FindTeacher(db, req.Teacher)
 	if stderr != nil {
 		return nil, ocverrs.New(http.StatusInternalServerError, "An error occurred while retrieving notification recipients.")
 	}
@@ -54,7 +55,7 @@ func RetrieveNotifications(req *viewmodels.RetrieveNotificationsRequest) (*viewm
 	for studentEmail := range studentRecipients {
 		student := models.Student{Email: studentEmail}
 
-		isSuspended, err := dataaccess.IsStudentSuspended(&student)
+		isSuspended, err := dataaccess.IsStudentSuspended(db, &student)
 		if err != nil {
 			return nil, ocverrs.New(http.StatusInternalServerError, "An error occurred while retrieving notification recipients.")
 		}

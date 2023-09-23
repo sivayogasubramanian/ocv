@@ -50,10 +50,10 @@ func TestRegister(t *testing.T) {
 		},
 	}
 
-	config.InitMemoryDB()
+	db := config.InitMemoryDB()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Register(tt.args.req); !reflect.DeepEqual(got, tt.want) {
+			if got := Register(db, tt.args.req); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Register() = %v, want %v", got, tt.want)
 			}
 		})

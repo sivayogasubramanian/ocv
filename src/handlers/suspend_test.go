@@ -49,18 +49,18 @@ func TestSuspend(t *testing.T) {
 		},
 	}
 
-	config.InitMemoryDB()
+	db := config.InitMemoryDB()
 	s1 := models.Student{
 		Email:       "s1@gmail.com",
 		IsSuspended: false,
 		Teachers:    nil,
 	}
-	err := config.DB.Save(&s1).Error
+	err := db.Save(&s1).Error
 	assert.Nil(t, err)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Suspend(tt.args.req); !reflect.DeepEqual(got, tt.want) {
+			if got := Suspend(db, tt.args.req); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Suspend() = %v, want %v", got, tt.want)
 			}
 		})

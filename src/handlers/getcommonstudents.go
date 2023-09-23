@@ -5,11 +5,12 @@ import (
 	ocverrs "github.com/sivayogasubramanian/ocv/src/errors"
 	"github.com/sivayogasubramanian/ocv/src/models"
 	"github.com/sivayogasubramanian/ocv/src/viewmodels"
+	"gorm.io/gorm"
 	"net/http"
 )
 
-func GetCommonStudents(teacherEmails []string) (*viewmodels.CommonStudentsResponse, ocverrs.Error) {
-	teachers, stderr := dataaccess.FindAllTeachers(teacherEmails)
+func GetCommonStudents(db *gorm.DB, teacherEmails []string) (*viewmodels.CommonStudentsResponse, ocverrs.Error) {
+	teachers, stderr := dataaccess.FindAllTeachers(db, teacherEmails)
 	if stderr != nil {
 		return nil, ocverrs.New(http.StatusInternalServerError, "An error occurred while getting the common students.")
 	}

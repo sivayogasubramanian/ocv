@@ -11,8 +11,6 @@ import (
 	"strconv"
 )
 
-var DB *gorm.DB
-
 type DBConfig struct {
 	Host     string
 	Port     int
@@ -48,31 +46,31 @@ func GetDatabaseUrl() string {
 	)
 }
 
-func InitDB() {
-	var err error
-
+func InitDB() (db *gorm.DB) {
 	dsn := GetDatabaseUrl()
-	DB, err = gorm.Open(postgres.Open(dsn))
+	db, err := gorm.Open(postgres.Open(dsn))
 	if err != nil {
 		log.Fatal("failed to connect database")
 	}
 
-	err = DB.AutoMigrate(&models.Student{}, &models.Teacher{})
+	err = db.AutoMigrate(&models.Student{}, &models.Teacher{})
 	if err != nil {
 		log.Fatal("failed to migrate database")
 	}
+
+	return db
 }
 
-func InitMemoryDB() {
-	var err error
-
-	DB, err = gorm.Open(sqlite.Open(":memory:"))
+func InitMemoryDB() (db *gorm.DB) {
+	db, err := gorm.Open(sqlite.Open(":memory:"))
 	if err != nil {
 		log.Fatal("failed to connect database")
 	}
 
-	err = DB.AutoMigrate(&models.Student{}, &models.Teacher{})
+	err = db.AutoMigrate(&models.Student{}, &models.Teacher{})
 	if err != nil {
 		log.Fatal("failed to migrate database")
 	}
+
+	return db
 }

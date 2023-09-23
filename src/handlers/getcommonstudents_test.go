@@ -100,17 +100,19 @@ func TestGetCommonStudents(t *testing.T) {
 		},
 	}
 
+	db := config.InitMemoryDB()
+
 	var err error
-	err = config.DB.Create(&t1).Error
+	err = db.Create(&t1).Error
 	assert.Nil(t, err)
-	err = config.DB.Create(&t2).Error
+	err = db.Create(&t2).Error
 	assert.Nil(t, err)
-	err = config.DB.Create(&t3).Error
+	err = db.Create(&t3).Error
 	assert.Nil(t, err)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1 := GetCommonStudents(tt.args.teacherEmails)
+			got, got1 := GetCommonStudents(db, tt.args.teacherEmails)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetCommonStudents() got = %v, want %v", got, tt.want)
 			}

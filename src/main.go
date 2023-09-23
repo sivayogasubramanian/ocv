@@ -20,8 +20,8 @@ func main() {
 
 	}
 
-	config.InitDB()
-	r := routes.SetupRouter()
+	db := config.InitDB()
+	r := routes.SetupRouter(db)
 
 	if err := r.Run(); err != nil {
 		log.Fatal("failed to run server")

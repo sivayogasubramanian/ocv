@@ -1,21 +1,21 @@
 package dataaccess
 
 import (
-	"github.com/sivayogasubramanian/ocv/src/config"
 	"github.com/sivayogasubramanian/ocv/src/models"
+	"gorm.io/gorm"
 )
 
-func CreateTeacher(teacher *models.Teacher) error {
-	if err := config.DB.Create(&teacher).Error; err != nil {
+func CreateTeacher(db *gorm.DB, teacher *models.Teacher) error {
+	if err := db.Create(&teacher).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func DoesTeacherExists(email string) (bool, error) {
+func DoesTeacherExists(db *gorm.DB, email string) (bool, error) {
 	exists := false
 
-	err := config.DB.Model(&models.Teacher{}).
+	err := db.Model(&models.Teacher{}).
 		Select("count(*) > 0").
 		Where("email = ?", email).
 		Find(&exists).
@@ -27,10 +27,10 @@ func DoesTeacherExists(email string) (bool, error) {
 	return exists, nil
 }
 
-func FindAllTeachers(emails []string) ([]models.Teacher, error) {
+func FindAllTeachers(db *gorm.DB, emails []string) ([]models.Teacher, error) {
 	var teachers []models.Teacher
 
-	err := config.DB.Where("email IN (?)", emails).Preload("Students").Find(&teachers).Error
+	err := db.Where("email IN (?)", emails).Preload("Students").Find(&teachers).Error
 	if err != nil {
 		return teachers, err
 	}
@@ -38,10 +38,10 @@ func FindAllTeachers(emails []string) ([]models.Teacher, error) {
 	return teachers, nil
 }
 
-func FindTeacher(email string) (models.Teacher, error) {
+func FindTeacher(db *gorm.DB, email string) (models.Teacher, error) {
 	var teacher models.Teacher
 
-	err := config.DB.Where("email = ?", email).Preload("Students").Find(&teacher).Error
+	err := db.Where("email = ?", email).Preload("Students").Find(&teacher).Error
 	if err != nil {
 		return teacher, err
 	}

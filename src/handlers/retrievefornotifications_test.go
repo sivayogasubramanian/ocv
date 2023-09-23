@@ -147,17 +147,19 @@ func TestRetrieveNotifications(t *testing.T) {
 		},
 	}
 
+	db := config.InitMemoryDB()
+
 	var err error
-	err = config.DB.Create(&t2).Error
+	err = db.Create(&t2).Error
 	assert.Nil(t, err)
-	err = config.DB.Create(&t3).Error
+	err = db.Create(&t3).Error
 	assert.Nil(t, err)
-	err = config.DB.Create(&t4).Error
+	err = db.Create(&t4).Error
 	assert.Nil(t, err)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1 := RetrieveNotifications(tt.args.req)
+			got, got1 := RetrieveNotifications(db, tt.args.req)
 			assert.Equalf(t, tt.want, got, "RetrieveNotifications(%v)", tt.args.req)
 			assert.Equalf(t, tt.wantErr, got1, "RetrieveNotifications(%v)", tt.args.req)
 		})

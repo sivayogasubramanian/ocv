@@ -1,14 +1,14 @@
 package dataaccess
 
 import (
-	"github.com/sivayogasubramanian/ocv/src/config"
 	"github.com/sivayogasubramanian/ocv/src/models"
+	"gorm.io/gorm"
 )
 
-func DoesStudentExists(email string) (bool, error) {
+func DoesStudentExists(db *gorm.DB, email string) (bool, error) {
 	exists := false
 
-	err := config.DB.Model(&models.Student{}).
+	err := db.Model(&models.Student{}).
 		Select("count(*) > 0").
 		Where("email = ?", email).
 		Find(&exists).
@@ -20,17 +20,17 @@ func DoesStudentExists(email string) (bool, error) {
 	return exists, nil
 }
 
-func SuspendStudent(student *models.Student) error {
+func SuspendStudent(db *gorm.DB, student *models.Student) error {
 	student.IsSuspended = true
-	err := config.DB.Save(&student).Error
+	err := db.Save(&student).Error
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func IsStudentSuspended(student *models.Student) (bool, error) {
-	err := config.DB.First(&student).Error
+func IsStudentSuspended(db *gorm.DB, student *models.Student) (bool, error) {
+	err := db.First(&student).Error
 	if err != nil {
 		return false, err
 	}
