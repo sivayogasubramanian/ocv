@@ -1,4 +1,4 @@
-module github.com/sivayogasubramanian/ocv
+module github.com/sivayogasubramanian/ocv/src
 
 go 1.18
 
