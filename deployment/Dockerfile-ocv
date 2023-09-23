@@ -1,7 +1,7 @@
 # To build a Docker image from this file, run from the root directory:
 # docker build -f deployment/Dockerfile-frontend -t ocv .
 
-FROM goland:1.18
+FROM golang:1.18
 
 # Environment variables
 ENV APP_ROOT /src
