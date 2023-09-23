@@ -2,7 +2,8 @@ package handlers
 
 import (
 	"github.com/sivayogasubramanian/ocv/src/config"
-	models2 "github.com/sivayogasubramanian/ocv/src/models"
+	ocverrs "github.com/sivayogasubramanian/ocv/src/errors"
+	"github.com/sivayogasubramanian/ocv/src/models"
 	"github.com/sivayogasubramanian/ocv/src/viewmodels"
 	"net/http"
 	"testing"
@@ -120,9 +121,9 @@ func TestRetrieveNotifications(t *testing.T) {
 
 	config.InitMemoryDB()
 
-	t2 := models2.Teacher{
+	t2 := models.Teacher{
 		Email: "t2@gmail.com",
-		Students: []*models2.Student{
+		Students: []*models.Student{
 			{
 				Email: "s2@gmail.com",
 			},
@@ -133,13 +134,13 @@ func TestRetrieveNotifications(t *testing.T) {
 		},
 	}
 
-	t3 := models2.Teacher{
+	t3 := models.Teacher{
 		Email: "t3@gmail.com",
 	}
 
-	t4 := models2.Teacher{
+	t4 := models.Teacher{
 		Email: "t4@gmail.com",
-		Students: []*models2.Student{
+		Students: []*models.Student{
 			{
 				Email: "s4@gmail.com",
 			},

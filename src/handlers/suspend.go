@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"github.com/sivayogasubramanian/ocv/src/dataaccess"
+	ocverrs "github.com/sivayogasubramanian/ocv/src/errors"
 	"github.com/sivayogasubramanian/ocv/src/models"
 	"github.com/sivayogasubramanian/ocv/src/viewmodels"
 	"net/http"
