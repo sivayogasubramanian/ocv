@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"github.com/sivayogasubramanian/ocv/models"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"log"
@@ -22,26 +22,28 @@ type DBConfig struct {
 }
 
 func BuildDBConfig() *DBConfig {
-	port, _ := strconv.Atoi(os.Getenv("MYSQL_PORT"))
+	port, _ := strconv.Atoi(os.Getenv("POSTGRES_PORT"))
 
 	dbConfig := DBConfig{
-		Host:     os.Getenv("MYSQL_HOST"),
+		Host:     os.Getenv("POSTGRES_HOST"),
 		Port:     port,
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		DBName:   os.Getenv("MYSQL_DATABASE_NAME"),
+		User:     os.Getenv("POSTGRES_USER"),
+		Password: os.Getenv("POSTGRES_PASSWORD"),
+		DBName:   os.Getenv("POSTGRES_DATABASE_NAME"),
 	}
 
 	return &dbConfig
 }
 
-func GetDatabaseUrl(dbConfig *DBConfig) string {
+func GetDatabaseUrl() string {
+	dbConfig := BuildDBConfig()
+
 	return fmt.Sprintf(
-		"%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
+		"postgres://%s:%s@%s:%s/%s",
 		dbConfig.User,
 		dbConfig.Password,
 		dbConfig.Host,
-		dbConfig.Port,
+		strconv.Itoa(dbConfig.Port),
 		dbConfig.DBName,
 	)
 }
@@ -49,7 +51,8 @@ func GetDatabaseUrl(dbConfig *DBConfig) string {
 func InitDB() {
 	var err error
 
-	DB, err = gorm.Open(mysql.Open(GetDatabaseUrl(BuildDBConfig())))
+	dsn := GetDatabaseUrl()
+	DB, err = gorm.Open(postgres.Open(dsn))
 	if err != nil {
 		log.Fatal("failed to connect database")
 	}
