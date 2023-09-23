@@ -11,7 +11,25 @@ env:
   NGINX_IMAGE_NAME: ocv-nginx
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      ocv: ${{ steps.changes.outputs.ocv }}
+      nginx: ${{ steps.changes.outputs.nginx }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            ocv: 
+              - 'src/**/*'
+            nginx:
+              - 'deployment/**/*'
+
   build-ocv-image:
+    needs: changes
+    if: ${{ needs.changes.outputs.ocv == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,6 +52,8 @@ jobs:
           tags: ghcr.io/sivayogasubramanian/${{ env.OCV_IMAGE_NAME }}:latest
 
   build-nginx-image:
+    needs: changes
+    if: ${{ needs.changes.outputs.nginx == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
