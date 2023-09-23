@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
-        working-directory: src
         with:
           version: latest
           args: --timeout=3m
+          working-directory: src
